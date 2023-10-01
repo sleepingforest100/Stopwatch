@@ -29,6 +29,12 @@ private var seconds: Int =0
                 resetClick()
             }
         }
+        savedInstanceState?.let {
+            seconds = it.getInt(State.SECONDS.name)
+            running = it.getBoolean(State.RUNNING.name)
+        }
+
+        runTimer()
 
     }
     private fun runTimer(){
@@ -44,14 +50,24 @@ private var seconds: Int =0
           }
       })
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+outState.putInt(State.SECONDS.name, seconds)
+        outState.putBoolean(State.RUNNING.name, running)
+        super.onSaveInstanceState(outState)
+    }
       private fun pauseClick(){
-Toast.makeText(this, "Pause", Toast.LENGTH_SHORT).show()
+//Toast.makeText(this, "Pause", Toast.LENGTH_SHORT).show()
+          running=false
 }
     private fun startButton(){
-        Toast.makeText(this, "Start", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "Start", Toast.LENGTH_SHORT).show()
+        running = true
     }
     private fun resetClick(){
-        Toast.makeText(this, "Reset", Toast.LENGTH_SHORT).show()
+      //  Toast.makeText(this, "Reset", Toast.LENGTH_SHORT).show()
+        seconds = 0
+        running=false
     }
 
     override fun onStart() {
@@ -83,4 +99,7 @@ Toast.makeText(this, "Pause", Toast.LENGTH_SHORT).show()
         super.onRestart()
         Log.e(this.javaClass.name, ">>> onRestart")
     }
+}
+enum class State{
+    RUNNING, SECONDS
 }
