@@ -2,13 +2,17 @@ package kz.just_code.stopwatch
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import kz.just_code.stopwatch.databinding.ActivityMainBinding
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 private lateinit var binding: ActivityMainBinding
-
+private var seconds: Int =0
+    private var running: Boolean=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -26,6 +30,19 @@ private lateinit var binding: ActivityMainBinding
             }
         }
 
+    }
+    private fun runTimer(){
+        val handler = Handler(Looper.getMainLooper())
+      handler.post(object: Runnable{
+          override fun run() {
+              val minutes =( seconds % 3600)/60
+              val time = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds%60)
+              binding.timeView.text = time
+
+              if(running) seconds++
+              handler.postDelayed(this, 1000)
+          }
+      })
     }
       private fun pauseClick(){
 Toast.makeText(this, "Pause", Toast.LENGTH_SHORT).show()
@@ -67,54 +84,3 @@ Toast.makeText(this, "Pause", Toast.LENGTH_SHORT).show()
         Log.e(this.javaClass.name, ">>> onRestart")
     }
 }
-//buildFeatures {
-//        viewBinding = true
-//    }
-
-
-//Toast.makeText(this, "Pause", Toast.LENGTH_SHORT).show()
-
-
-//private fun pauseClick() {
-//    Toast.makeText(this, "Pause Clicked", Toast.LENGTH_SHORT).show()
-//}
-//
-//private fun startClick() {
-//    Toast.makeText(this, "Start Clicked", Toast.LENGTH_SHORT).show()
-//}
-//
-//private fun resetClick() {
-//    Toast.makeText(this, "Reset Clicked", Toast.LENGTH_SHORT).show()
-//}
-
-
-//private fun runTimer() {
-//    val handler = Handler(Looper.getMainLooper())
-//    handler.post(object : Runnable {
-//        override fun run() {
-//            val minutes = (seconds % 3600) / 60
-//            val time = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
-//            binding.timeView.text = time
-//
-//            if (running) seconds++
-//            handler.postDelayed(this, 1000)
-//        }
-//    })
-//}
-
-//private fun runTimer() {
-//    val handler = Handler(Looper.getMainLooper())
-//    handler.post(object : Runnable {
-//        override fun run() {
-//            val minutes = (seconds % 3600) / 60
-//            val time = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds % 60)
-//            binding.timeView.text = time
-//
-//            if (running) seconds++
-//            handler.postDelayed(this, 1000)
-//        }
-//    })
-//}
-
-//val time = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds % 60)
-//должно быть
