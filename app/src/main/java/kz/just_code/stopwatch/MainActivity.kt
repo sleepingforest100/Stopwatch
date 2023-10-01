@@ -3,6 +3,7 @@ package kz.just_code.stopwatch
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import kz.just_code.stopwatch.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -13,6 +14,27 @@ private lateinit var binding: ActivityMainBinding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Log.e(this.javaClass.name, ">>> onCreate")
+        with(binding){
+            pauseButton.setOnClickListener {
+                pauseClick()
+            }
+            startButton.setOnClickListener {
+                startButton()
+            }
+            resetButton.setOnClickListener {
+                resetClick()
+            }
+        }
+
+    }
+      private fun pauseClick(){
+Toast.makeText(this, "Pause", Toast.LENGTH_SHORT).show()
+}
+    private fun startButton(){
+        Toast.makeText(this, "Start", Toast.LENGTH_SHORT).show()
+    }
+    private fun resetClick(){
+        Toast.makeText(this, "Reset", Toast.LENGTH_SHORT).show()
     }
 
     override fun onStart() {
